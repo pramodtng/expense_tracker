@@ -302,11 +302,10 @@ export default function DashboardClient({ user }: DashboardClientProps) {
                       <button
                         key={curr.code}
                         onClick={() => setCurrency(curr)}
-                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center justify-between ${
-                          currency.code === curr.code
-                            ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100"
-                            : "hover:bg-emerald-50 dark:hover:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300"
-                        }`}
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center justify-between ${currency.code === curr.code
+                          ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100"
+                          : "hover:bg-emerald-50 dark:hover:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300"
+                          }`}
                       >
                         <div className="flex items-center gap-2">
                           <span className="font-medium">{curr.symbol}</span>
@@ -435,15 +434,19 @@ export default function DashboardClient({ user }: DashboardClientProps) {
 
         <Tabs defaultValue="overview" className="space-y-4">
           <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 scrollbar-hide">
-            <TabsList className="bg-white dark:bg-gray-800 border border-emerald-200 dark:border-emerald-800 p-1 h-auto gap-1 w-full sm:w-auto inline-flex min-w-full sm:min-w-0">
-              <TabsTrigger 
-                value="overview" 
+            <TabsList className="bg-white dark:bg-gray-800
+    border border-emerald-200 dark:border-emerald-800
+    p-1 gap-1
+    flex w-max min-w-full
+    sm:min-w-0 sm:w-auto">
+              <TabsTrigger
+                value="overview"
                 className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
                 <LayoutDashboard className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 <span>Overview</span>
               </TabsTrigger>
-              <TabsTrigger 
+              <TabsTrigger
                 value="transactions"
                 className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
@@ -456,7 +459,7 @@ export default function DashboardClient({ user }: DashboardClientProps) {
                   </span>
                 )}
               </TabsTrigger>
-              <TabsTrigger 
+              <TabsTrigger
                 value="categories"
                 className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
@@ -469,7 +472,7 @@ export default function DashboardClient({ user }: DashboardClientProps) {
                   </span>
                 )}
               </TabsTrigger>
-              <TabsTrigger 
+              <TabsTrigger
                 value="budgets"
                 className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
