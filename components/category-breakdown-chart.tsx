@@ -71,20 +71,21 @@ export default function CategoryBreakdownChart({ transactions, currency }: Categ
 
   return (
     <Card className="border-emerald-200 dark:border-emerald-800 bg-white dark:bg-gray-800 shadow-sm">
-      <CardHeader>
-        <CardTitle className="text-emerald-900 dark:text-emerald-100">Category Breakdown</CardTitle>
-        <CardDescription className="dark:text-emerald-300">Spending by category</CardDescription>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base sm:text-lg text-emerald-900 dark:text-emerald-100">Category Breakdown</CardTitle>
+        <CardDescription className="text-xs sm:text-sm dark:text-emerald-300">Spending by category</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={300}>
+      <CardContent className="p-3 sm:p-6">
+        <div className="w-full" style={{ height: "250px" }}>
+          <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, percentage }) => `${name}: ${percentage}%`}
-              outerRadius={80}
+              label={false}
+              outerRadius={60}
               fill="#8884d8"
               dataKey="amount"
             >
@@ -102,15 +103,16 @@ export default function CategoryBreakdownChart({ transactions, currency }: Categ
               formatter={(value: number) => formatCurrency(value, currency)}
             />
             <Legend
-              wrapperStyle={{ paddingTop: "20px" }}
+              wrapperStyle={{ paddingTop: "10px", fontSize: "11px" }}
               formatter={(value) => {
                 const item = chartData.find((d) => d.name === value)
                 return item ? `${value} (${item.percentage}%)` : value
               }}
             />
           </PieChart>
-        </ResponsiveContainer>
-        <div className="mt-4 space-y-2">
+          </ResponsiveContainer>
+        </div>
+        <div className="mt-3 sm:mt-4 space-y-2">
           {chartData.map((item) => (
             <div key={item.name} className="flex items-center justify-between text-sm">
               <div className="flex items-center gap-2">

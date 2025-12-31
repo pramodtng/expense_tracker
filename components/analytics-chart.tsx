@@ -52,10 +52,10 @@ export default function AnalyticsChart({ transactions, currency }: AnalyticsChar
   const textColor = isDark ? "#d1fae5" : "#059669"
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2 justify-end">
+    <div className="space-y-3 sm:space-y-4">
+      <div className="flex gap-2 justify-end flex-wrap">
         <Select value={timeRange} onValueChange={(value: "7days" | "30days" | "90days") => setTimeRange(value)}>
-          <SelectTrigger className="w-[120px] border-emerald-200 dark:border-emerald-800">
+          <SelectTrigger className="w-full min-[375px]:w-[120px] text-xs sm:text-sm border-emerald-200 dark:border-emerald-800">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -65,7 +65,7 @@ export default function AnalyticsChart({ transactions, currency }: AnalyticsChar
           </SelectContent>
         </Select>
         <Select value={chartType} onValueChange={(value: "bar" | "line") => setChartType(value)}>
-          <SelectTrigger className="w-[100px] border-emerald-200 dark:border-emerald-800">
+          <SelectTrigger className="w-full min-[375px]:w-[100px] text-xs sm:text-sm border-emerald-200 dark:border-emerald-800">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -74,12 +74,24 @@ export default function AnalyticsChart({ transactions, currency }: AnalyticsChar
           </SelectContent>
         </Select>
       </div>
-      <ResponsiveContainer width="100%" height={300}>
+      <div className="w-full" style={{ height: "250px" }}>
+        <ResponsiveContainer width="100%" height="100%">
         {chartType === "bar" ? (
           <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
-            <XAxis dataKey="date" stroke={textColor} />
-            <YAxis stroke={textColor} />
+            <XAxis 
+              dataKey="date" 
+              stroke={textColor}
+              tick={{ fontSize: 10 }}
+              angle={-45}
+              textAnchor="end"
+              height={60}
+            />
+            <YAxis 
+              stroke={textColor}
+              tick={{ fontSize: 10 }}
+              width={50}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: isDark ? "#1f2937" : "#fff",
@@ -89,15 +101,26 @@ export default function AnalyticsChart({ transactions, currency }: AnalyticsChar
               }}
               formatter={(value: number) => formatCurrency(value, currency)}
             />
-            <Legend />
+            <Legend wrapperStyle={{ fontSize: "12px" }} />
             <Bar dataKey="income" fill="#10b981" name="Income" radius={[8, 8, 0, 0]} />
             <Bar dataKey="expenses" fill="#ef4444" name="Expenses" radius={[8, 8, 0, 0]} />
           </BarChart>
         ) : (
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
-            <XAxis dataKey="date" stroke={textColor} />
-            <YAxis stroke={textColor} />
+            <XAxis 
+              dataKey="date" 
+              stroke={textColor}
+              tick={{ fontSize: 10 }}
+              angle={-45}
+              textAnchor="end"
+              height={60}
+            />
+            <YAxis 
+              stroke={textColor}
+              tick={{ fontSize: 10 }}
+              width={50}
+            />
             <Tooltip
               contentStyle={{
                 backgroundColor: isDark ? "#1f2937" : "#fff",
@@ -107,13 +130,14 @@ export default function AnalyticsChart({ transactions, currency }: AnalyticsChar
               }}
               formatter={(value: number) => formatCurrency(value, currency)}
             />
-            <Legend />
+            <Legend wrapperStyle={{ fontSize: "12px" }} />
             <Line type="monotone" dataKey="income" stroke="#10b981" strokeWidth={2} name="Income" />
             <Line type="monotone" dataKey="expenses" stroke="#ef4444" strokeWidth={2} name="Expenses" />
             <Line type="monotone" dataKey="net" stroke="#3b82f6" strokeWidth={2} strokeDasharray="5 5" name="Net" />
           </LineChart>
         )}
-      </ResponsiveContainer>
+        </ResponsiveContainer>
+      </div>
     </div>
   )
 }

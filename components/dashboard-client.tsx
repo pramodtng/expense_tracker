@@ -399,8 +399,10 @@ export default function DashboardClient({ user }: DashboardClientProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-xl font-bold text-emerald-900 dark:text-emerald-100">{formatCurrency(monthSummary.balance, currency)}</div>
-                <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
-                  Income: {formatCurrency(monthSummary.income, currency)} | Expenses: {formatCurrency(monthSummary.expenses, currency)}
+                <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 break-words">
+                  <span className="block sm:inline">Income: {formatCurrency(monthSummary.income, currency)}</span>
+                  <span className="hidden sm:inline"> | </span>
+                  <span className="block sm:inline">Expenses: {formatCurrency(monthSummary.expenses, currency)}</span>
                 </p>
               </CardContent>
             </Card>
@@ -411,8 +413,10 @@ export default function DashboardClient({ user }: DashboardClientProps) {
               </CardHeader>
               <CardContent>
                 <div className="text-xl font-bold text-emerald-900 dark:text-emerald-100">{formatCurrency(yearSummary.balance, currency)}</div>
-                <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">
-                  Income: {formatCurrency(yearSummary.income, currency)} | Expenses: {formatCurrency(yearSummary.expenses, currency)}
+                <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1 break-words">
+                  <span className="block sm:inline">Income: {formatCurrency(yearSummary.income, currency)}</span>
+                  <span className="hidden sm:inline"> | </span>
+                  <span className="block sm:inline">Expenses: {formatCurrency(yearSummary.expenses, currency)}</span>
                 </p>
               </CardContent>
             </Card>
@@ -430,49 +434,50 @@ export default function DashboardClient({ user }: DashboardClientProps) {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-4">
-          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-            <TabsList className="bg-white dark:bg-gray-800 border border-emerald-200 dark:border-emerald-800 p-1.5 h-auto gap-1.5 w-full sm:w-auto inline-flex">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 scrollbar-hide">
+            <TabsList className="bg-white dark:bg-gray-800 border border-emerald-200 dark:border-emerald-800 p-1 h-auto gap-1 w-full sm:w-auto inline-flex min-w-full sm:min-w-0">
               <TabsTrigger 
                 value="overview" 
-                className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md flex-shrink-0"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
-                <LayoutDashboard className="h-4 w-4" />
-                <span className="hidden sm:inline">Overview</span>
-                <span className="sm:hidden">Overview</span>
+                <LayoutDashboard className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span>Overview</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="transactions"
-                className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md flex-shrink-0"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
-                <Receipt className="h-4 w-4" />
-                <span>Transactions</span>
+                <Receipt className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden min-[375px]:inline">Transactions</span>
+                <span className="min-[375px]:hidden">Txns</span>
                 {transactions.length > 0 && (
-                  <span className="ml-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 data-[state=active]:bg-white/20 data-[state=active]:text-white">
-                    {transactions.length}
+                  <span className="ml-0.5 sm:ml-1 px-1 sm:px-1.5 py-0.5 text-[10px] sm:text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                    {transactions.length > 99 ? "99+" : transactions.length}
                   </span>
                 )}
               </TabsTrigger>
               <TabsTrigger 
                 value="categories"
-                className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md flex-shrink-0"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
-                <Tag className="h-4 w-4" />
-                <span>Categories</span>
+                <Tag className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span className="hidden min-[375px]:inline">Categories</span>
+                <span className="min-[375px]:hidden">Cats</span>
                 {categoriesCount > 0 && (
-                  <span className="ml-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 data-[state=active]:bg-white/20 data-[state=active]:text-white">
-                    {categoriesCount}
+                  <span className="ml-0.5 sm:ml-1 px-1 sm:px-1.5 py-0.5 text-[10px] sm:text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                    {categoriesCount > 99 ? "99+" : categoriesCount}
                   </span>
                 )}
               </TabsTrigger>
               <TabsTrigger 
                 value="budgets"
-                className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md flex-shrink-0"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm data-[state=active]:bg-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all rounded-md shrink-0"
               >
-                <Target className="h-4 w-4" />
+                <Target className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 <span>Budgets</span>
                 {budgetsCount > 0 && (
-                  <span className="ml-1 px-1.5 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 data-[state=active]:bg-white/20 data-[state=active]:text-white">
-                    {budgetsCount}
+                  <span className="ml-0.5 sm:ml-1 px-1 sm:px-1.5 py-0.5 text-[10px] sm:text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 data-[state=active]:bg-white/20 data-[state=active]:text-white">
+                    {budgetsCount > 99 ? "99+" : budgetsCount}
                   </span>
                 )}
               </TabsTrigger>
@@ -480,13 +485,13 @@ export default function DashboardClient({ user }: DashboardClientProps) {
           </div>
 
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 lg:grid-cols-2">
               <Card className="border-emerald-200 dark:border-emerald-800 bg-white dark:bg-gray-800 shadow-sm">
-                <CardHeader>
-                  <CardTitle className="text-emerald-900 dark:text-emerald-100">Spending Analytics</CardTitle>
-                  <CardDescription className="dark:text-emerald-300">Your spending patterns over time</CardDescription>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base sm:text-lg text-emerald-900 dark:text-emerald-100">Spending Analytics</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm dark:text-emerald-300">Your spending patterns over time</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-3 sm:p-6">
                   <AnalyticsChart transactions={transactions} currency={currency} />
                 </CardContent>
               </Card>

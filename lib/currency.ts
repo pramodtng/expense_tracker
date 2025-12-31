@@ -6,6 +6,8 @@ export type Currency = {
 }
 
 export const CURRENCIES: Currency[] = [
+  // { code: "BTN", symbol: "Nu.", name: "Bhutanese Ngultrum", locale: "dz-BT" },
+  { code: "BTN", symbol: "Nu.", name: "Bhutanese Ngultrum", locale: "en-BT" },
   { code: "USD", symbol: "$", name: "US Dollar", locale: "en-US" },
   { code: "EUR", symbol: "€", name: "Euro", locale: "en-US" },
   { code: "GBP", symbol: "£", name: "British Pound", locale: "en-GB" },
@@ -21,7 +23,6 @@ export const CURRENCIES: Currency[] = [
   { code: "SGD", symbol: "S$", name: "Singapore Dollar", locale: "en-SG" },
   { code: "HKD", symbol: "HK$", name: "Hong Kong Dollar", locale: "en-HK" },
   { code: "NZD", symbol: "NZ$", name: "New Zealand Dollar", locale: "en-NZ" },
-  { code: "BTN", symbol: "Nu.", name: "Bhutanese Ngultrum", locale: "dz-BT" },
 ]
 
 export const DEFAULT_CURRENCY: Currency = CURRENCIES[0] // USD

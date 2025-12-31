@@ -145,67 +145,67 @@ export default function TransactionsList({ transactions, onRefresh, isLoading = 
       {transactions.map((transaction) => (
         <div
           key={transaction.id}
-          className="group flex items-center justify-between rounded-lg border border-emerald-100 dark:border-emerald-800 bg-white dark:bg-gray-800 p-4 transition-all hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:shadow-sm"
+          className="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-2 rounded-lg border border-emerald-100 dark:border-emerald-800 bg-white dark:bg-gray-800 p-3 sm:p-4 transition-all hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:shadow-sm"
         >
-          <div className="flex items-center gap-4 flex-1 min-w-0">
+          <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0 w-full sm:w-auto">
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-transform group-hover:scale-110 ${
+              className={`flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full transition-transform group-hover:scale-110 ${
                 transaction.type === "income" ? "bg-emerald-100" : "bg-red-100"
               }`}
             >
               {transaction.type === "income" ? (
-                <ArrowUpCircle className="h-5 w-5 text-emerald-600" />
+                <ArrowUpCircle className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
               ) : (
-                <ArrowDownCircle className="h-5 w-5 text-red-600" />
+                <ArrowDownCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
               )}
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="font-medium text-emerald-900 dark:text-emerald-100 truncate">{transaction.description || "No description"}</p>
+                <p className="font-medium text-sm sm:text-base text-emerald-900 dark:text-emerald-100 truncate">{transaction.description || "No description"}</p>
                 {transaction.categories && (
                   <span
-                    className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium shrink-0"
+                    className="inline-flex items-center gap-1 rounded-full px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs font-medium shrink-0"
                     style={{
                       backgroundColor: `${transaction.categories.color}20`,
                       color: transaction.categories.color,
                     }}
                   >
-                    <div className="h-2 w-2 rounded-full" style={{ backgroundColor: transaction.categories.color }} />
-                    {transaction.categories.name}
+                    <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full" style={{ backgroundColor: transaction.categories.color }} />
+                    <span className="hidden min-[375px]:inline">{transaction.categories.name}</span>
                   </span>
                 )}
               </div>
-              <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
+              <p className="text-xs sm:text-sm text-emerald-600 dark:text-emerald-400 mt-1">
                 {format(new Date(transaction.date), "MMM d, yyyy")}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0 w-full sm:w-auto">
             <p
-              className={`text-lg font-semibold whitespace-nowrap ${
+              className={`text-base sm:text-lg font-semibold whitespace-nowrap ${
                 transaction.type === "income" ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
               }`}
             >
               {transaction.type === "income" ? "+" : "-"}{formatCurrency(Number(transaction.amount), currency)}
             </p>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5 sm:gap-1">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => handleEdit(transaction)}
-                className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+                className="h-8 w-8 sm:h-9 sm:w-9 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
                 title="Edit transaction"
               >
-                <Edit className="h-4 w-4" />
+                <Edit className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => handleDuplicate(transaction)}
-                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950/30"
+                className="h-8 w-8 sm:h-9 sm:w-9 text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-950/30"
                 title="Duplicate transaction"
               >
-                <Copy className="h-4 w-4" />
+                <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </Button>
               <AlertDialog>
               <AlertDialogTrigger asChild>
