@@ -56,9 +56,16 @@ export default function AddTransactionDialog({ open, onOpenChange, onSuccess, tr
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Update categories when type changes
   useEffect(() => {
     if (open) {
       fetchCategories()
+    }
+  }, [open, type]) // Added type to dependencies
+
+  // Initialize form when dialog opens or transaction changes
+  useEffect(() => {
+    if (open) {
       if (transaction) {
         setType(transaction.type)
         setAmount(transaction.amount.toString())
@@ -73,15 +80,36 @@ export default function AddTransactionDialog({ open, onOpenChange, onSuccess, tr
         setDate(new Date().toISOString().split("T")[0])
       }
     }
-  }, [open, type, transaction])
+  }, [open, transaction]) // Removed type from here to prevent infinite loop
 
   const fetchCategories = async () => {
-    const { data, error } = await supabase.from("categories").select("*").eq("type", type).order("name")
+    try {
+      const { data, error } = await supabase
+        .from("categories")
+        .select("*")
+        .eq("type", type)
+        .order("name")
 
-    if (error) {
-      console.error("Error fetching categories:", error)
-    } else {
+      if (error) throw error
+      
       setCategories(data || [])
+      
+      // Reset category if it's not valid for the current type
+      if (data && data.length > 0) {
+        const categoryExists = data.some(cat => cat.id === categoryId)
+        if (!categoryExists) {
+          setCategoryId("")
+        }
+      } else {
+        setCategoryId("")
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error)
+      toast({
+        title: "Error",
+        description: "Failed to load categories",
+        variant: "destructive",
+      })
     }
   }
 
@@ -163,13 +191,14 @@ export default function AddTransactionDialog({ open, onOpenChange, onSuccess, tr
               <Label htmlFor="type">Type</Label>
               <Select
                 value={type}
-                onValueChange={(value: "income" | "expense") => {
-                  setType(value)
+                onValueChange={(value) => {
+                  setType(value as "income" | "expense")
+                  // Reset category when type changes
                   setCategoryId("")
                 }}
               >
-                <SelectTrigger>
-                  <SelectValue />
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="income">Income</SelectItem>
@@ -180,36 +209,45 @@ export default function AddTransactionDialog({ open, onOpenChange, onSuccess, tr
             <div className="grid gap-2">
               <Label htmlFor="amount">Amount</Label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-600 dark:text-emerald-400 font-medium">
+                {/* <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-600 dark:text-emerald-400 font-medium">
                   {getCurrencySymbol(currency)}
-                </span>
+                </span> */}
                 <Input
                   id="amount"
                   type="number"
                   step="0.01"
                   min="0"
-                  placeholder="0.00"
+                  placeholder={`${getCurrencySymbol(currency)} 0.00`}
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
                   required
-                  className="text-lg pl-8"
+                  className="text-lg"
                 />
               </div>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="category">Category {categories.length === 0 && <span className="text-xs text-muted-foreground">(Create categories first)</span>}</Label>
-              <Select value={categoryId} onValueChange={setCategoryId}>
+              <Select 
+                value={categoryId} 
+                onValueChange={setCategoryId}
+                disabled={categories.length === 0}
+              >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a category (optional)" />
+                  <SelectValue placeholder={categories.length === 0 ? "No categories available" : "Select category"} />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.length === 0 ? (
-                    <div className="p-2 text-sm text-muted-foreground">No categories available</div>
+                    <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                      No {type} categories found. Please add categories in the Categories section.
+                    </div>
                   ) : (
                     categories.map((category) => (
                       <SelectItem key={category.id} value={category.id}>
                         <div className="flex items-center gap-2">
-                          <div className="h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
+                          <div 
+                            className="h-3 w-3 rounded-full" 
+                            style={{ backgroundColor: category.color || '#6b7280' }}
+                          />
                           {category.name}
                         </div>
                       </SelectItem>
