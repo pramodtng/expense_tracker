@@ -17,16 +17,23 @@ import { SummaryCards } from "@/components/dashboard/SummaryCards"
 import { PeriodSummaryCards } from "@/components/dashboard/PeriodSummaryCards"
 import { DashboardTabs } from "@/components/dashboard/DashboardTabs"
 import AddTransactionDialog from "@/components/add-transaction-dialog"
+import { SettingsDialog } from "@/components/dashboard/SettingsDialog"
 
 interface DashboardClientProps {
   user: User
+  profile: {
+    username: string | null
+    full_name: string | null
+    avatar_url: string | null
+  } | null
 }
 
-export default function DashboardClient({ user }: DashboardClientProps) {
+export default function DashboardClient({ user, profile }: DashboardClientProps) {
   const router = useRouter()
   const supabase = createClient()
   const { currency, setCurrency } = useCurrency()
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false)
   
   const { transactions, isLoading, fetchTransactions } = useTransactions()
   const { categoriesCount, budgetsCount, fetchCounts } = useCounts()
@@ -68,12 +75,12 @@ export default function DashboardClient({ user }: DashboardClientProps) {
   }, [filteredTransactions, currency])
 
   return (
-    <div className="flex min-h-svh flex-col bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-emerald-950 dark:to-teal-950">
+    <div className="flex min-h-svh flex-col bg-linear-to-br from-emerald-50 to-teal-100 dark:from-emerald-950 dark:to-teal-950">
       <DashboardHeader
         user={user}
-        currency={currency}
-        onCurrencyChange={setCurrency}
+        profile={profile}
         onSignOut={handleSignOut}
+        onSettingsClick={() => setIsSettingsDialogOpen(true)}
       />
 
       <main className="container mx-auto flex-1 py-8 px-4 sm:px-6 lg:px-8">
@@ -132,6 +139,13 @@ export default function DashboardClient({ user }: DashboardClientProps) {
         onOpenChange={setIsAddDialogOpen} 
         onSuccess={handleTransactionSuccess}
         currency={currency}
+      />
+
+      <SettingsDialog
+        open={isSettingsDialogOpen}
+        onOpenChange={setIsSettingsDialogOpen}
+        currency={currency}
+        onCurrencyChange={setCurrency}
       />
     </div>
   )

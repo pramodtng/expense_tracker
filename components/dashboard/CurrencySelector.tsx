@@ -41,7 +41,7 @@ export function CurrencySelector({ currency, onCurrencyChange }: CurrencySelecto
             Select Currency
           </div>
           
-          <div className="max-h-[300px] overflow-y-auto">
+          <div className="max-h-75 overflow-y-auto">
             {CURRENCIES.map((curr) => (
               <button
                 key={curr.code}

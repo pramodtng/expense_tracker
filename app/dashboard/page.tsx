@@ -10,5 +10,11 @@ export default async function DashboardPage() {
     redirect("/auth/login")
   }
 
-  return <DashboardClient user={data.user} />
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username, full_name, avatar_url")
+    .eq("id", data.user.id)
+    .maybeSingle()
+
+  return <DashboardClient user={data.user} profile={profile ?? null} />
 }

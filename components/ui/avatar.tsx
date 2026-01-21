@@ -9,6 +9,13 @@ const Avatar = React.forwardRef<
     alt?: string
   }
 >(({ className, src, alt, children, ...props }, ref) => {
+  const [hasError, setHasError] = React.useState(false)
+
+  React.useEffect(() => {
+    // Reset error state when src changes
+    setHasError(false)
+  }, [src])
+
   return (
     <span
       ref={ref}
@@ -18,11 +25,12 @@ const Avatar = React.forwardRef<
       )}
       {...props}
     >
-      {src ? (
+      {src && !hasError ? (
         <img
           src={src}
           alt={alt}
           className="aspect-square h-full w-full object-cover"
+          onError={() => setHasError(true)}
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center rounded-full bg-muted">
